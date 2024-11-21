@@ -51,7 +51,7 @@ public class InterfaceEstoque extends JFrame {
         add(panelBotoes, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Adicionando a área de histórico no layout
+        // Adicionando area de historico
         JPanel panelHistorico = new JPanel();
         panelHistorico.setLayout(new BorderLayout());
         panelHistorico.add(scrollPaneHistorico, BorderLayout.CENTER);
@@ -142,20 +142,20 @@ public class InterfaceEstoque extends JFrame {
             boolean sucesso = estoque.removerProduto(nomeProduto);
             if (sucesso) {
                 JOptionPane.showMessageDialog(this, "Produto removido com sucesso!");
-                visualizarProdutos();
             } else {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado.");
             }
+            visualizarProdutos();
         }
     }
 
     private void visualizarProdutos() {
-        if (estoque.getProdutos().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Estoque vazio.");
-            return;
-        }
         areaTexto.setText("");
-        estoque.getProdutos().forEach(produto -> areaTexto.append(produto + "\n"));
+        if (estoque.getProdutos().isEmpty()) {
+            areaTexto.append("Estoque vazio.");
+        } else {
+            estoque.getProdutos().forEach(produto -> areaTexto.append(produto + "\n"));
+        }
     }
 
     private void visualizarHistorico() {
