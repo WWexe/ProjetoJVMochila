@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -51,14 +51,21 @@ public class InterfaceEstoque extends JFrame {
         add(panelBotoes, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Adicionando area de historico
         JPanel panelHistorico = new JPanel();
         panelHistorico.setLayout(new BorderLayout());
         panelHistorico.add(scrollPaneHistorico, BorderLayout.CENTER);
         add(panelHistorico, BorderLayout.SOUTH);
 
+        carregarLogo();
+    }
+
+    private void carregarLogo() {
         try {
-            BufferedImage logoImage = ImageIO.read(new File("logo.jpg"));
+            InputStream logoStream = getClass().getResourceAsStream("/logo.jpg");
+            if (logoStream == null) {
+                throw new IOException("Arquivo logo.jpg não encontrado.");
+            }
+            BufferedImage logoImage = ImageIO.read(logoStream);
             int newWidth = logoImage.getWidth() / 4;
             int newHeight = logoImage.getHeight() / 4;
             Image scaledLogo = logoImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
@@ -70,7 +77,12 @@ public class InterfaceEstoque extends JFrame {
             panelLogo.add(logoLabel);
             add(panelLogo, BorderLayout.EAST);
         } catch (IOException e) {
-            System.out.println("Erro ao carregar a imagem: " + e.getMessage());
+            JLabel errorLabel = new JLabel("Logo não disponível");
+            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            JPanel panelLogo = new JPanel();
+            panelLogo.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            panelLogo.add(errorLabel);
+            add(panelLogo, BorderLayout.EAST);
         }
     }
 
@@ -107,34 +119,17 @@ public class InterfaceEstoque extends JFrame {
         }
 
         try {
-            int quantidadeAtual = produto.getQuantidade();
-            double valorAtual = produto.getValor();
-            int novaQuantidade = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite a nova quantidade:", quantidadeAtual));
-            double novoValor = Double.parseDouble(JOptionPane.showInputDialog(this, "Digite o novo valor:", valorAtual));
+            int novaQuantidade = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite a nova quantidade:"));
+            double novoValor = Double.parseDouble(JOptionPane.showInputDialog(this, "Digite o novo valor:"));
+            produto.setQuantidade(novaQuantidade);
+            produto.setValor(novoValor);
 
-            StringBuilder alteracoes = new StringBuilder();
-            if (quantidadeAtual != novaQuantidade) {
-                alteracoes.append("Quantidade alterada de ").append(quantidadeAtual).append(" para ").append(novaQuantidade).append(". ");
-                produto.setQuantidade(novaQuantidade);
-            }
-            if (valorAtual != novoValor) {
-                alteracoes.append("Valor alterado de ").append(valorAtual).append(" para ").append(novoValor).append(". ");
-                produto.setValor(novoValor);
-            }
-            if (alteracoes.length() > 0) {
-                estoque.adicionarHistorico("Atualização", produto.getNome(), alteracoes.toString());
-                JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Nenhuma alteração foi realizada.");
-            }
-
+            JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
             visualizarProdutos();
-
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Valor inválido.");
+            JOptionPane.showMessageDialog(this, "Quantidade ou valor inválido.");
         }
     }
-
 
     private void removerProduto() {
         String nomeProduto = JOptionPane.showInputDialog(this, "Digite o nome do produto a ser removido:");
