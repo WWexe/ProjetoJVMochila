@@ -1,0 +1,31 @@
+Alteraçoes realizadas:
+
+Criada classe HistoricoAlteracao.java
+
+Em InterfaceEstoque.java adicionado metodo visualizarHistorico() pertinente a classe HistoricoAlteracao.java 
+
+No metodo atualizarProduto() adicionado 2 if's{} pertinente a impressão no historico do valor atual e do novo valor dos atributos(quantidade e valor) dos produtos cadastrados.
+
+2. Atualizando a classe Estoque.java
+Ajustamos o método adicionarHistorico para aceitar uma descrição personalizada, permitindo registrar informações detalhadas.
+
+java
+Copiar código
+public void adicionarHistorico(String operacao, String nomeProduto, String descricao) {
+    historico.add(new HistoricoAlteracao(operacao, nomeProduto, descricao));
+}
+
+3. Classe HistoricoAlteracao.java
+A classe permanece a mesma, já que ela já permite descrever a alteração detalhadamente no campo descricao.
+
+
+4. Visualizando o histórico
+O método visualizarHistorico permanece inalterado, pois o histórico já será preenchido com os detalhes das alterações.
+
+java
+Copiar código
+private void visualizarHistorico() {
+    areaHistorico.setText("");
+    estoque.getHistorico().forEach(historico -> areaHistorico.append(historico + "\n"));
+}
+
