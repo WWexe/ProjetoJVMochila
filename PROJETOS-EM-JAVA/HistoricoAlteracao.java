@@ -15,7 +15,7 @@ public class HistoricoAlteracao {
 
     @Override
     public String toString() {
-        return "Operação: " + operacao +
+        return "Tipo: " + operacao +
                 ", Produto: " + nomeProduto +
                 ", Descrição: " + descricao +
                 ", Data/Hora: " + dataHora;
