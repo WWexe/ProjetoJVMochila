@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class InterfaceEstoque extends JFrame {
     private Estoque estoque;
-    private Mochila mochila;  // Campo para armazenar a mochila
+    private Mochila mochila;
     private JTextArea areaTexto;
     private JTextArea areaHistorico;
     private JTextArea areaResultadoOtimizacao;
@@ -27,7 +27,7 @@ public class InterfaceEstoque extends JFrame {
         JButton btnSair = new JButton("Sair");
         JButton btnVisualizar = new JButton("Visualizar Produtos");
         JButton btnHistorico = new JButton("Visualizar Histórico");
-        JButton btnOtimizarMochila = new JButton("Otimizar Mochila");  // Botão para otimizar a mochila
+        JButton btnOtimizarMochila = new JButton("Otimizar Mochila");
 
         areaTexto = new JTextArea(10, 30);
         areaTexto.setEditable(false);
@@ -37,7 +37,7 @@ public class InterfaceEstoque extends JFrame {
         areaHistorico.setEditable(false);
         JScrollPane scrollPaneHistorico = new JScrollPane(areaHistorico);
 
-        areaResultadoOtimizacao = new JTextArea(10, 25);  // Adiciona o campo para mostrar o resultado da otimização
+        areaResultadoOtimizacao = new JTextArea(10, 25);
         areaResultadoOtimizacao.setEditable(false);
         JScrollPane scrollPaneResultado = new JScrollPane(areaResultadoOtimizacao);
 
@@ -47,7 +47,7 @@ public class InterfaceEstoque extends JFrame {
         btnSair.addActionListener(e -> System.exit(0));
         btnVisualizar.addActionListener(e -> visualizarProdutos());
         btnHistorico.addActionListener(e -> visualizarHistorico());
-        btnOtimizarMochila.addActionListener(e -> otimizarMochila());  // Ação para otimizar mochila
+        btnOtimizarMochila.addActionListener(e -> otimizarMochila());
 
         panelBotoes.add(btnAdicionar);
         panelBotoes.add(btnAtualizar);
@@ -55,7 +55,7 @@ public class InterfaceEstoque extends JFrame {
         panelBotoes.add(btnSair);
         panelBotoes.add(btnVisualizar);
         panelBotoes.add(btnHistorico);
-        panelBotoes.add(btnOtimizarMochila);  // Adicionando o botão de otimização
+        panelBotoes.add(btnOtimizarMochila);
 
         add(panelBotoes, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -63,7 +63,7 @@ public class InterfaceEstoque extends JFrame {
         panelHistorico.setLayout(new BorderLayout());
         panelHistorico.add(scrollPaneHistorico, BorderLayout.CENTER);
         add(panelHistorico, BorderLayout.SOUTH);
-        add(scrollPaneResultado, BorderLayout.EAST);  // Adicionando a área de resultados da otimização à direita
+        add(scrollPaneResultado, BorderLayout.EAST);
     }
 
     private void otimizarMochila() {
@@ -72,11 +72,9 @@ public class InterfaceEstoque extends JFrame {
             return;
         }
 
-        // Criar a instância da OtimizacaoMochila
         OtimizacaoMochila otimizacao = new OtimizacaoMochila(estoque, mochila);
-        otimizacao.otimizar(); // Chama a otimização
+        otimizacao.otimizar();
 
-        // Exibe os resultados no JTextArea
         StringBuilder resultados = new StringBuilder("Itens escolhidos para a mochila:\n");
         for (Produto produto : estoque.getProdutos()) {
             if (produto.getQuantidadeEscolhida() > 0) {
@@ -86,7 +84,7 @@ public class InterfaceEstoque extends JFrame {
                         .append("\n");
             }
         }
-        double valorTotal = otimizacao.getValorTotal();  // Obtém o valor total calculado pela otimização
+        double valorTotal = otimizacao.getValorTotal();
         resultados.append("Valor total da mochila: R$ ").append(String.format("%.2f", valorTotal));
         areaResultadoOtimizacao.setText(resultados.toString());
 
@@ -141,6 +139,22 @@ public class InterfaceEstoque extends JFrame {
             }
         }
     }
+
+     /*private void definirMochila() {
+        try {
+            int mochilaComprimento = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite o Comprimento da Mochila:"));
+            int mochilaAltura = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite a Altura da Mochila:"));
+            int mochilaLargura = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite a Largura da Mochila:"));
+
+            if (mochilaComprimento <= 0 || mochilaAltura <= 0 || mochilaLargura <= 0) {
+                JOptionPane.showMessageDialog(this, "As dimensões da mochila devem ser positivas.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Mochila mochila = new Mochila(mochilaComprimento, mochilaAltura, mochilaLargura);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Valor inválido. Certifique-se de digitar números.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
 
     private void adicionarProduto() {
         String nomeProduto = JOptionPane.showInputDialog(this, "Digite o nome do produto:");

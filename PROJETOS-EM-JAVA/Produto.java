@@ -31,11 +31,11 @@ public class Produto {
     }
 
     public int getQuantidadeEscolhida() {
-        return this.quantidade;  // Retorna a quantidade total ou a quantidade escolhida
+        return this.quantidade;
     }
 
     public void setQuantidadeEscolhida(int quantidadeEscolhida) {
-        this.quantidade = quantidadeEscolhida;  // Atualiza a quantidade
+        this.quantidade = quantidadeEscolhida;
     }
 
     public String getNome() {
