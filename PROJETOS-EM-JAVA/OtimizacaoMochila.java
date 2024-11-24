@@ -1,32 +1,59 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class OtimizacaoMochila {
+    private Estoque estoque;
+    private Mochila mochila;
 
-    public static List<Produto> otimizarEstoque(List<Produto> produtos, int capacidade) {
-        int n = produtos.size();
-        int[][] dp = new int[n + 1][capacidade + 1];
-        List<Produto> resultado = new ArrayList<>();
+    public OtimizacaoMochila(Estoque estoque, Mochila mochila) {
+        this.estoque = estoque;
+        this.mochila = mochila;
+    }
 
-        for (int i = 1; i <= n; i++) {
-            Produto produto = produtos.get(i - 1);
-            for (int w = 1; w <= capacidade; w++) {
-                if (produto.getQuantidade() <= w) {
-                    dp[i][w] = (int) Math.max(produto.getValor() + dp[i - 1][w - produto.getQuantidade()], dp[i - 1][w]);
-                } else {
-                    dp[i][w] = dp[i - 1][w];
-                }
-            }
+    public void otimizar() {
+        List<Produto> produtos = estoque.getProdutos();
+        // Calcula a densidade (valor / volume) de cada produto e os armazena em um array
+        for (Produto produto : produtos) {
+            double densidade = produto.getValor() / produto.getVolume();
+            produto.setDensidade(densidade);  // Adiciona a densidade no produto
         }
 
-        int w = capacidade;
-        for (int i = n; i > 0 && w > 0; i--) {
-            if (dp[i][w] != dp[i - 1][w]) {
-                Produto produto = produtos.get(i - 1);
-                resultado.add(produto);
-                w -= produto.getQuantidade();
-            }
+        // Ordena os produtos pela densidade de forma decrescente
+        produtos.sort((p1, p2) -> Double.compare(p2.getDensidade(), p1.getDensidade()));
+
+        int volumeRestante = mochila.getVolume();
+        double valorTotal = 0;
+        int[] quantidadesEscolhidas = new int[produtos.size()];
+
+        // Tenta preencher a mochila com os produtos ordenados
+        for (int i = 0; i < produtos.size(); i++) {
+            Produto produto = produtos.get(i);
+            int quantidadeMaxima = Math.min(produto.getQuantidade(), volumeRestante / (int) produto.getVolume());
+
+            quantidadesEscolhidas[i] = quantidadeMaxima;
+            volumeRestante -= quantidadeMaxima * produto.getVolume();
+            valorTotal += quantidadeMaxima * produto.getValor();
+
+            // Atualiza as quantidades escolhidas no produto
+            produto.setQuantidadeEscolhida(quantidadeMaxima);
+
+            // Se a mochila estiver cheia, interrompe o processo
+            if (volumeRestante <= 0) break;
         }
-        return resultado;
+
+        // Exibe os resultados
+        exibirResultados(quantidadesEscolhidas, valorTotal);
+    }
+
+    private void exibirResultados(int[] quantidadesEscolhidas, double valorTotal) {
+
+    }
+
+    public double getValorTotal() {
+        // Calcula o valor total da mochila com base nas quantidades escolhidas
+        double valorTotal = 0;
+        for (Produto produto : estoque.getProdutos()) {
+            valorTotal += produto.getQuantidadeEscolhida() * produto.getValor();
+        }
+        return valorTotal;
     }
 }

@@ -1,37 +1,58 @@
 public class Mochila {
-    private int mochilaComprimento;
-    private int mochilaAltura;
-    private int mochilaLargura;
+    private int comprimento;
+    private int altura;
+    private int largura;
+    private int volume;  // Declaração correta da variável volume
 
-    public Mochila(int mochilaComprimento, int mochilaAltura, int mochilaLargura) {
-        this.mochilaComprimento = mochilaComprimento;
-        this.mochilaAltura = mochilaAltura;
-        this.mochilaLargura = mochilaLargura;
+    public Mochila(int comprimento, int altura, int largura) {
+        this.comprimento = comprimento;
+        this.altura = altura;
+        this.largura = largura;
+        this.volume = calcularVolume();  // Calcula o volume automaticamente
     }
-    public int getMochilaComprimento() {
-        return mochilaComprimento;
+
+    private int calcularVolume() {
+        return comprimento * altura * largura;  // Cálculo do volume
     }
-    public int getMochilaAltura() {
-        return mochilaAltura;
+
+    public int getComprimento() {
+        return comprimento;
     }
-    public int getMochilaLargura() {
-        return mochilaLargura;
+
+    public int getAltura() {
+        return altura;
     }
-    public void setMochilaComprimento(int mochilaComprimento) {
-        this.mochilaComprimento = mochilaComprimento;
+
+    public int getLargura() {
+        return largura;
     }
-    public void setMochilaAltura(int mochilaAltura) {
-        this.mochilaAltura = mochilaAltura;
+
+    public int getVolume() {
+        return volume;
     }
-    public void setMochilaLargura(int mochilaLargura) {
-        this.mochilaLargura = mochilaLargura;
+
+    public void setComprimento(int comprimento) {
+        this.comprimento = comprimento;
+        this.volume = calcularVolume();  // Atualiza o volume
     }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
+        this.volume = calcularVolume();  // Atualiza o volume
+    }
+
+    public void setLargura(int largura) {
+        this.largura = largura;
+        this.volume = calcularVolume();  // Atualiza o volume
+    }
+
     @Override
     public String toString() {
         return "Mochila{" +
-                "mochilaComprimento=" + mochilaComprimento +
-                ", mochilaAltura=" + mochilaAltura +
-                ", mochilaLargura=" + mochilaLargura +
+                "comprimento=" + comprimento +
+                ", altura=" + altura +
+                ", largura=" + largura +
+                ", volume=" + volume +  // Adicionando volume na representação
                 '}';
     }
 }

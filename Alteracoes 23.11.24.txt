@@ -1,0 +1,15 @@
+Produto.java -
+
+Adicionado atributos: oriundos do calculo de Volume(comp. altura, largura).
+
+OtimizacaoMochila.java - 
+
+Implementado a Heurística Gulosa que se baseia na Densidade(ValorProduto / DensidadeProduto) do Produto. Que faz um rank de produtos com maior densidade e preenche a mochila de acordo com o rank. Implementado metodo que verifica se após preencher a mochila já está cheia após escolher todas as unidades do produto com maior Densidade, se sim, escolhe o 2° produto no rank de Densidade, preenche a mochila e assim por diante.
+
+Após Pesquisas encontrei a seguintes abordagens:
+
+Força Bruta - Professor Explicou aula passada.
+Programação Dinânmica - Professor Explicou aula passada.
+
+Heurística Gulosa.
+A mesma foi escolhida pois lida bem com grande numero de produtos cadastrados e se caso a mochila tenha um alto volume, e também pelo seu facil entendimento.
